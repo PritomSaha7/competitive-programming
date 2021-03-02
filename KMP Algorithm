@@ -1,0 +1,40 @@
+->> KMP Algorithm for substring search
+->> Complexity: O(pattern size + text size)
+
+const int N = 1e5;
+int failure[N];
+
+void failuretable(string newstring, int sz) {
+    failure[0] = failure[1] = 0;
+    for (int i = 2; i <= sz; i++) {
+        int j = failure[i - 1];
+        while(true) {
+            if (newstring[j] == newstring[i - 1]) {
+                failure[i] = j + 1;
+                break;
+            }
+            if (j == 0) {
+                failure[i] = 0;
+                break;
+            }
+            j = failure[j];
+        }
+    }
+}
+
+int main() {
+    ios :: sync_with_stdio(false);
+    cin.tie(0);
+    string text, pattern;
+    cin >> text >> pattern;
+    string newstring  = pattern + '$' + text;
+    int sz = newstring.size();
+    failuretable(newstring, sz);
+    for (int i = pattern.size() + 1; i < sz; i++) {
+        if (failure[i + 1] == pattern.size()) {
+            printf("Yes, pattern exits in the text as a substring\n");
+            return 0;
+        }
+    }
+    return 0;
+}
