@@ -1,0 +1,38 @@
+->> Euler's Totient Function
+->> Source: https://www.geeksforgeeks.org/eulers-totient-function-for-all-numbers-smaller-than-or-equal-to-n/
+->> Source: https://www.geeksforgeeks.org/eulers-totient-function/
+
+const int N = 1e5;
+int phi[N];
+
+// Complexity - n log log n
+void rangetotient(int n) {
+    for (int i = 1; i <= n; i++) {
+        phi[i] = i;
+    }
+    for (int i = 2; i <= n; i++) {
+        if (phi[i] == i) {
+            phi[i] -= 1;
+            for (int j = i * 2; j <= n; j += i) {
+                phi[j] = (phi[j] / i) * (i - 1);
+            }
+        }
+    }
+}
+
+// Complexity - sqrt(n)
+int totient(int n) {
+    double result = n;
+    for (int i = 2; i * i <= n; i++) {
+        if (n % i == 0) {
+            while(n % i == 0) {
+                n /= i;
+            }
+            result = result * (1.0 - (1.0 / (double) i));
+        }
+    }
+    if (n > 1) {
+        result = result * (1.0 - (1.0 / (double) n));
+    }
+    return (int) result;
+}
