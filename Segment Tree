@@ -1,0 +1,57 @@
+->> Segment Tree
+->> Complexity - make_tree(n log n) + update_tree(log n) + query(log n)
+->> Source: Safayet Blog
+
+const int N = 1e5;
+
+int arr[N], node[N * 4];
+
+void make_tree(int parent, int left, int right) {
+  if (left == right) {
+    node[parent] = arr[left];
+    return;
+  }
+  int lc = parent * 2;
+  int rc = parent * 2 + 1;
+  int mid = (left + right) / 2;
+  make_tree(lc, left, mid);
+  make_tree(rc, mid + 1, right);
+  node[parent] = node[lc] + node[rc];
+}
+
+void update_tree(int parent, int left, int right, int i, int newvalue) {
+  if (i > right || i < left) return;
+  if (left >= i && right <= i) {
+    node[parent] = newvalue;
+    return;
+  }
+  int lc = parent * 2;
+  int rc = parent * 2 + 1;
+  int mid = (left + right) / 2;
+  update_tree(lc, left, mid, i, newvalue);
+  update_tree(rc, mid + 1, right, i, newvalue);
+  node[parent] = node[lc] + node[rc];
+}
+
+int query(int parent, int left, int right, int i, int j) {
+  if (i > right || j < left) return 0;
+  if (left >= i && right <= j) return node[parent];
+  int lc = parent * 2;
+  int rc = parent * 2 + 1;
+  int mid = (left + right) / 2;
+  int a = query(lc, left, mid, i, j);
+  int b = query(rc, mid + 1, right, i, j);
+  return a + b;
+}
+
+int main() {
+  ios :: sync_with_stdio(false);
+  cin.tie(0);
+  int n; cin >> n;
+  for (int i = 1; i <= n; i++) {
+    cin >> arr[i];
+  }
+  make_tree(1, 1, n);
+  update_tree(1, 1, n, 5, -5);
+  query(1, 1, n, 2, 6);
+}
