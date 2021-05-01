@@ -17,7 +17,8 @@ void dfs(int x, int parent) {
         } else if (!vis[u]) {
             child += 1;
             dfs(u, x);
-            if (time_in[x] <= min_time[u]) {
+            min_time[x] = min(min_time[x], min_time[u]);
+            if (time_in[x] <= min_time[u] && parent != -1) {
                 point[x] = 1;
             }
             // for bridges the above condition will be
@@ -43,3 +44,4 @@ int main() {
     }
     dfs(1, -1);
 }
+
