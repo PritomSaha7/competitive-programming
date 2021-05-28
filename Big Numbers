@@ -83,3 +83,44 @@ int main() {
   string b = "99";
   subtraction(a, b);
 }
+
+->> How to multiply two large number ??
+
+string multiply(string a, string b) {
+  int la = a.size(), lb = b.size();
+  vector<int> res(la + lb, 0);
+  int __i = 0, __j = 0;
+  for (int i = la - 1; i >= 0; i--) {
+    __j = 0;
+    int carry = 0;
+    int p = a[i] - '0';
+    for (int j = lb - 1; j >= 0; j--) {
+      int q = b[j] - '0';
+      int x = (p * q) + res[__i + __j] + carry;
+      carry = x / 10;
+      res[__i + __j] = x % 10;
+      __j += 1;
+    }
+    if (carry) {
+      res[__i + __j] += carry;
+    }
+    __i += 1;
+  }
+  int i = res.size() - 1;
+  while(i >= 0 && res[i] == 0) {
+    i -= 1;
+  }
+  if (i < 0) return "0";
+  string ans = "";
+  while(i >= 0) {
+    ans += std :: to_string(res[i--]);
+  }
+  return ans;
+}
+
+int main() {
+  ios :: sync_with_stdio(false);
+  cin.tie(0);
+  string a = "120";
+  string b = "120";
+}
