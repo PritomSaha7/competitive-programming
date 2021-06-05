@@ -1,0 +1,19 @@
+->> Count the number of divisor from 1 to n
+->> Complexity: n log log n
+
+const int N = 1e6 + 30;
+
+int div[N];
+
+void countdivisor(int n) {
+  for (int i = 1; i <= n; i++) {
+    for (int j = 1; i * j <= n; j++) {
+      div[i * j] += 1;
+    }
+  }
+}
+
+int main() {
+  int n; std :: cin >> n;
+  countdivisor(n);
+}
