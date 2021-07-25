@@ -1,0 +1,33 @@
+-> Quotient and Remainder for Big Numbers.
+
+pair<string, int> division(string number, int divisor) {
+  string ans;
+  int index = 0;
+  int Remainder = 0;
+  int temp = number[index] - '0';
+  while(temp < divisor) {
+    temp = temp * 10 + (number[++index] - '0');
+  }
+  int length = number.size();
+  while(index < length) {
+    ans += (temp / divisor) + '0';
+    Remainder = temp % divisor;
+    temp = (temp % divisor) * 10 + number[++index] - '0';
+  }
+  if (ans.size() == 0) {
+    return {"0", Remainder};
+  }
+  return {ans, Remainder};
+}
+
+int main() {
+  ios :: sync_with_stdio(false);
+  cin.tie(0);
+  string number = "97";
+  int divisor = 34;
+  pair<string, int> p = division(number, divisor);
+  string Quotient = p.first;
+  int Remainder = p.second;
+  cout << "Quotient = " << Quotient << " " << "Remainder = " << Remainder << endl;
+  return 0;
+}
