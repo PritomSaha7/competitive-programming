@@ -1,0 +1,13 @@
+// LCM of First n Natural Numbers or 1 to n
+// By using singed long long range can be increased a little bit
+// Formula: a * b = gcd(a, b) * lcm(a, b)
+// https://codeforces.com/contest/1542/problem/C
+
+long long lcm[43];
+
+int main() {
+  long long a = 1;
+  for (long long i = 1; i < 43; i++) {
+    lcm[i] = a = (a * i) / __gcd(a, i);
+  }
+}
