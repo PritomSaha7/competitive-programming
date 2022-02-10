@@ -1,5 +1,5 @@
 // Count the number of divisor from 1 to n
-// Complexity: n log log n
+// Complexity: n log n
 
 const int N = 1e6;
 
