@@ -1,40 +1,28 @@
-->> KMP Algorithm for substring search
-->> Complexity: O(pattern size + text size)
+// KMP Algorithm for substring search
+// Complexity: O(n + m)
+// http://www.shafaetsplanet.com/?p=3209
+// https://www.spoj.com/problems/NHAY/
 
-const int N = 1e5;
-int failure[N];
-
-void failuretable(string newstring, int sz) {
-    failure[0] = failure[1] = 0;
-    for (int i = 2; i <= sz; i++) {
-        int j = failure[i - 1];
-        while(true) {
-            if (newstring[j] == newstring[i - 1]) {
-                failure[i] = j + 1;
-                break;
-            }
-            if (j == 0) {
-                failure[i] = 0;
-                break;
-            }
-            j = failure[j];
-        }
+vector<int> KMP(string s) {
+  int n = (int) s.size();
+  vector<int> lps(n);
+  for (int i = 1; i < n; i++) {
+    int j = lps[i - 1];
+    while(j > 0 and s[i] != s[j]) {
+      j = lps[j - 1];
     }
+    if (s[i] == s[j]) {
+      j++;
+    }
+    lps[i] = j;
+  }
+  return lps;
 }
 
 int main() {
-    ios :: sync_with_stdio(false);
-    cin.tie(0);
-    string text, pattern;
-    cin >> text >> pattern;
-    string newstring  = pattern + '$' + text;
-    int sz = newstring.size();
-    failuretable(newstring, sz);
-    for (int i = pattern.size() + 1; i < sz; i++) {
-        if (failure[i + 1] == pattern.size()) {
-            printf("Yes, pattern exits in the text as a substring\n");
-            return 0;
-        }
-    }
-    return 0;
+  ios :: sync_with_stdio(false);
+  cin.tie(0);
+  string te, pa; cin >> te >> pa;
+  string s = pa + '?' + te;
+  vector<int> lps = KMP(s);
 }
