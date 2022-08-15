@@ -1,0 +1,30 @@
+const int N = 1e5 + 5;
+
+int bit[N];
+
+void update(int i, int x, int n) {
+  while(i <= n) {
+    bit[i] += x;
+    i += i & -i;
+  }
+}
+
+int get(int i) {
+  int sum = 0;
+  while(i > 0) {
+    sum += bit[i];
+    i -= i & -i;
+  }
+  return sum;
+}
+
+
+
+// fenwick tree (point update)
+// https://www.topcoder.com/thrive/articles/Binary%20Indexed%20Trees
+// https://www.youtube.com/watch?v=aAALKHLeexw
+// complexity: log n.
+
+// problems:
+// https://cses.fi/problemset/task/1648
+// https://lightoj.com/problem/curious-robin-hood
