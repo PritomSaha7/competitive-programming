@@ -1,0 +1,68 @@
+const int N = 1e5 + 5;
+
+vector<int> graph[N], depth(N), vis(N);
+vector<vector<int> > table(N, vector<int> (30, -1));
+
+void bfs(int x) {
+  queue<int> q;
+  q.push(x);
+  vis[x] = 1;
+  while(!q.empty()) {
+    int node = q.front();
+    q.pop();
+    for (auto u : graph[node]) {
+      if (vis[u] == 0) {
+        vis[u] = 1;
+        depth[u] = depth[node] + 1;
+        table[u][0] = node;
+        q.push(u);
+      }
+    }
+  }
+}
+
+void build(int n) {
+  for (int i = 1; i < 27; i++) {
+    for (int j = 1; j <= n; j++) {
+      if (table[j][i - 1] != -1) {
+        table[j][i] = table[table[j][i - 1]][i - 1];
+      }
+    }
+  }
+}
+
+int lca(int p, int q) {
+  if (depth[p] < depth[q]) {
+    swap(p, q);
+  }
+  for (int i = 25; i >= 0; i--) {
+    if ((depth[p] - (1 << i)) >= depth[q]) {
+      p = table[p][i];
+    }
+  }
+  if (p == q) {
+    return p;
+  }
+  for (int i = 25; i >= 0; i--) {
+    if (table[p][i] != table[q][i]) {
+      p = table[p][i];
+      q = table[q][i];
+    }
+  }
+  return table[p][0];
+}
+
+
+
+// lowest common ancestor
+// binary lifting
+// complexity: build - n log n
+//             lca - log n
+// http://www.shafaetsplanet.com/?p=1831
+
+
+// practice problem
+// https://www.spoj.com/problems/LCA/en/
+// https://www.spoj.com/problems/DISQUERY/en/
+// https://cses.fi/problemset/task/1687
+// https://cses.fi/problemset/task/1688
