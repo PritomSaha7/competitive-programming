@@ -1,0 +1,62 @@
+const int N = 1e5 + 5;
+
+vector<int> graph[N], tgraph[N], components[N], vis(N), use(N);
+stack<int> stac;
+int total;
+
+void topsort(int x) {
+  vis[x] = 1;
+  for (auto u : graph[x]) {
+    if (vis[u] == 0) {
+      topsort(u);
+    }
+  }
+  stac.push(x);
+}
+
+void dfs(int x) {
+  use[x] = 1;
+  components[total].push_back(x);
+  for (auto u : tgraph[x]) {
+    if (use[u] == 0) {
+      dfs(u);
+    }
+  }
+}
+
+void scc(int n) {
+  for (int i = 1; i <= n; i++) {
+    if (vis[i] == 0) {
+      topsort(i);
+    }
+  }
+  while(!stac.empty()) {
+    int node = stac.top();
+    stac.pop();
+    if (use[node] == 0) {
+      total += 1;
+      dfs(node);
+    }
+  }
+}
+
+
+// int u, v;
+// cin >> u >> v;
+// graph[u].push_back(v);
+// tgraph[v].push_back(u); 
+
+
+// larger endtime node can never be reachable from smaller endtime node.
+// smaller endtime node can / can not be reachable from larger endtime node.
+
+// strongly connected components
+// http://www.shafaetsplanet.com/?p=2531
+// complexity: O(v + e)
+
+// practice problem
+// https://www.spoj.com/problems/CAPCITY/
+// https://cses.fi/problemset/task/1682
+// https://cses.fi/problemset/task/1683
+// https://cses.fi/problemset/task/1686
+// https://codeforces.com/problemset/problem/427/C
