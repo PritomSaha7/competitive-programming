@@ -1,0 +1,73 @@
+// topsort with bfs.
+
+const int N = 1e5 + 5;
+
+vector<int> graph[N], idg(N), order;
+queue<int> q;
+
+bool topsort(int n) {
+  for (int i = 1; i <= n; i++) {
+    for (auto u : graph[i]) {
+      idg[u] += 1;
+    }
+  }
+  for (int i = 1; i <= n; i++) {
+    if (idg[i] == 0) {
+      q.push(i);
+    }
+  }
+  while(!q.empty()) {
+    int node = q.front();
+    order.push_back(node);
+    q.pop();
+    for (auto u : graph[node]) {
+      idg[u] -= 1;
+      if (idg[u] == 0) {
+        q.push(u);
+      }
+    }
+  }
+  return (order.size() == n);
+}
+
+
+// topsort with dfs.
+// works on acyclic graph only.
+
+const int N = 1e5 + 5;
+
+vector<int> graph[N], vis(N), order;
+
+void dfs(int x) {
+  vis[x] = 1;
+  for (auto u : graph[x]) {
+    if (vis[u] == 0) {
+      dfs(u);
+    }
+  }
+  order.push_back(x);
+}
+
+void topsort(int n) {
+  for (int i = 1; i <= n; i++) {
+    if (vis[i] == 0) {
+      dfs(i);
+    }
+  }
+  reverse(order.begin(), order.end());
+}
+
+
+// topological sort 
+// complexity: O(v + e)
+// https://cp-algorithms.com/graph/topological-sort.html
+
+// graph[u].push_back(v] -> u should be done before v.
+                                            
+// practice problem
+// https://www.spoj.com/problems/TOPOSORT/
+// https://www.spoj.com/problems/RPLA/
+// https://cses.fi/problemset/task/1679
+// https://cses.fi/problemset/task/1680
+// https://cses.fi/problemset/task/1681
+// http://codeforces.com/problemset/problem/510/C
