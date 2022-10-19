@@ -1,11 +1,12 @@
 // Disjoint Set Union
-// Source: Cp - Algorithm
+// Source: https://cp-algorithms.com/data_structures/disjoint_set_union.html
 // Complexity: log(n)
 
-const int N = 1e5;
-int parent[N], length[N];
+const int N = 1e5 + 5;
 
-void init(int n) {
+vector<int> parent(N), length(N);
+
+void format(int n) {
   for (int i = 1; i <= n; i++) {
     parent[i] = i;
     length[i] = 1;
@@ -13,10 +14,11 @@ void init(int n) {
 }
 
 int root(int x) {
-  return parent[x] = parent[x] == x ? x : root(parent[x]);
+  parent[x] = parent[x] == x ? x : root(parent[x]);
+  return parent[x];
 }
 
-void family(int a, int b) {
+void unite(int a, int b) {
   a = root(a);
   b = root(b);
   if (a != b) {
