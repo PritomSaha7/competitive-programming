@@ -1,0 +1,53 @@
+// Segment Tree (Lazy Propagation)
+// Complexity: build(n log n) + update(log n) + get(log n)
+// Source: http://www.shafaetsplanet.com/?p=1591
+
+const int N = 1e5 + 5;
+
+vector<int> arr(N);
+
+struct info {
+  int sum;
+  int prop;
+} node[N * 4];
+
+void build(int parent, int left, int right) {
+  if (left == right) {
+    node[parent].sum = arr[left];
+    return;
+  }
+  int lc = parent * 2;
+  int rc = parent * 2 + 1;
+  int mid = (left + right) / 2;
+  build(lc, left, mid);
+  build(rc, mid + 1, right);
+  node[parent].sum = node[lc].sum + node[rc].sum;
+}
+
+void update(int parent, int left, int right, int i, int j, int x) {
+  if (i > right || j < left) return;
+  if (left >= i && right <= j) {
+    node[parent].prop += x;
+    node[parent].sum += (right - left + 1) * x;
+    return;
+  }
+  int lc = parent * 2;
+  int rc = parent * 2 + 1;
+  int mid = (left + right) / 2;
+  update(lc, left, mid, i, j, x);
+  update(rc, mid + 1, right, i, j, x);
+  node[parent].sum = node[lc].sum + node[rc].sum + node[parent].prop * (right - left + 1);
+}
+
+int get(int parent, int left, int right, int i, int j, int carry) {
+  if (i > right || j < left) return 0;
+  if (left >= i && right <= j) {
+    return node[parent].sum + carry * (right - left + 1);
+  }
+  int lc = parent * 2;
+  int rc = parent * 2 + 1;
+  int mid = (left + right) / 2;
+  int a = get(lc, left, mid, i, j, carry + node[parent].prop);
+  int b = get(rc, mid + 1, right, i, j, carry + node[parent].prop);
+  return a + b;
+}
