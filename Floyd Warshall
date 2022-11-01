@@ -1,0 +1,40 @@
+// Floyd Warshall
+// Complexity: O(n ^ 3)
+// Source: http://www.shafaetsplanet.com/?p=1927
+
+const int N = 1e2 + 5;
+const int INF = 1e18;
+
+vector<int> path;
+
+int matrix[N][N], next[N][N];
+
+void format(int n) {
+  for (int i = 1; i <= n; i++) {
+    for (int j = 1; j <= n; j++) {
+      matrix[i][j] = (i == j) ? 0 : INF;
+      next[i][j] = j;
+    }
+  }
+}
+
+void pathway(int i, int j) {
+  path.push_back(i);
+  while(i != j) {
+    i = next[i][j];
+    path.push_back(i);
+  }
+}
+
+void floydwarshall(int n) {
+  for (int k = 1; k <= n; k++) {
+    for (int i = 1; i <= n; i++) {
+      for (int j = 1; j <= n; j++) {
+        if (matrix[i][k] + matrix[k][j] < matrix[i][j]) {
+          matrix[i][j] = matrix[i][k] + matrix[k][j];
+          next[i][j] = next[i][k];
+        }
+      }
+    }
+  }
+}
