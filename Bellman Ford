@@ -1,0 +1,26 @@
+// Bellman Ford
+// Complexity: O(n * m)
+// Source: http://www.shafaetsplanet.com/?p=2044
+
+const int N = 1e3 + 5;
+const int INF = 1e18;
+
+vector<int> graph[N], dis(N), p(N);
+bool neg_cycle = false;
+
+void bellmanford(int x) {
+  dis.assign(N, INF);
+  dis[x] = p[x] = 0;
+  for (int i = 0; i < n; i++) {
+    for (int j = 0; j < m; j++) {
+      int u = graph[j][0], v = graph[j][1], w = graph[j][2];
+      if (dis[u] + w < dis[v]) {
+        dis[v] = dis[u] + w;
+        p[v] = u;
+      }
+      if (i + 1 == n and dis[u] + w < div[v]) {
+        neg_cycle = true;
+      }
+    }
+  }
+}
