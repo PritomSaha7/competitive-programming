@@ -1,20 +1,25 @@
-->> dijkstra
-->> Complexity: O(v log v + e)
-->> Source: Safayet Blog
+// Dijkstra
+// Complexity: O(n log n + m)
+// Source: http://www.shafaetsplanet.com/?p=1500
 
-const int N = 1e5;
-const int inf = 1e18;
+const int N = 1e5 + 5;
+const int INF = 1e18;
 
-using pii = pair<int, int>;
+using Pair = pair<int, int>;
 
-vector<pii> graph[N];
-vector<int> vis(N), p(N), dis(N);
-vector<int> way;
+vector<Pair> graph[N];
+vector<int> vis(N), p(N), dis(N), path;
+
+void pathway(int x) {
+  for (int i = x; i > 0; i = p[i]) {
+    path.push_back(i);
+  }
+}
 
 void dijkstra(int x) {
-  dis.assign(N, inf);
+  dis.assign(N, INF);
   dis[x] = 0;
-  priority_queue<pii, vector<pii>, greater<pii> > q;
+  priority_queue<Pair, vector<Pair>, greater<Pair> > q;
   q.push({dis[x], x});
   while(!q.empty()) {
     int parent = q.top().second;
@@ -30,21 +35,4 @@ void dijkstra(int x) {
       }
     }
   }
-}
-
-void path(int x) {
-  for (int i = x; i > 0; i = p[i]) {
-    way.push_back(i);
-  }
-}
-
-int main() {
-  ios :: sync_with_stdio(false);
-  cin.tie(0);
-  int n, m; cin >> n >> m;
-  for (int i = 0; i < m; i++) {
-    int u, v, w; cin >> u >> v >> w;
-    graph[u].push_back({v, w});
-  }
-  dijkstra(1);
 }
