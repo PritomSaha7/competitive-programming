@@ -1,91 +1,34 @@
-Bitwise operators:
-    -> NOT(~):
-        N = 5 = (101)
-        ~N = ~5 = 010 = 2
-        
-    -> AND(&):
-        1 & 1 = 1, 1 & 0 = 0, 0 & 1 = 0, 0 & 0 = 0
-        A = 5 = 101
-        B = 3 = 011
-        A & B = 101 & 011 = 001 = 1
-        
-    -> OR(|):
-        1 | 1 = 1, 1 | 0 = 1, 0 | 1 = 1, 0 | 0 = 0
-        A = 5 = 101
-        B = 3 = 011
-        A | B = 101 | 011 = 111 = 7
+// Source: https://www.hackerearth.com/practice/basic-programming/bit-manipulation/basics-of-bit-manipulation/tutorial/
+
+AND(&) // 1 & 1 = 1, 1 & 0 = 0, 0 & 1 = 0, 0 & 0 = 0
+
+OR(|) // 1 | 1 = 1, 1 | 0 = 1, 0 | 1 = 1, 0 | 0 = 0
     
-    -> XOR(^):
-        1 ^ 1 = 0, 0 ^ 0 = 0, 0 ^ 1 = 1, 1 ^ 0 = 1
-        A = 5 = 101
-        B = 3 = 011
-        A ^ B = 101 ^ 011 = 110 = 6
-        
-    -> Left Shift(<<):
-        X << Y means X * (2 ^ Y)
-        It shifts Y bits to the left and add Y zeroes to the right
-        1 << 3 = 1 * 2 ^ 3 = 8
-        5 << 3 = 40
+XOR(^) // 1 ^ 1 = 0, 0 ^ 0 = 0, 0 ^ 1 = 1, 1 ^ 0 = 1
     
-    -> Right Shift(>>):
-        X >> Y means X / (2 ^ Y)
-        It shifts Y bits to the right and add Y zeroes to the left
-        8 >> 3 = 1
-        40 >> 3 = 5
-        
-task 01: How to check if a given number is power of 2 or not ?
+Left Shift(<<) // (x << y) = x * (2 ^ y)
+    
+Right Shift(>>) // (x >> y) = x / (2 ^ y)
+    
+x & (x - 1) // it makes the rightmost 1 bit to 0 + it's a power of 2 or not 
+    
+x & (1 << i) // it checks the i'th bit is 0 or 1
 
-Solution: A number is power of 2 if the 1st bit is the only 1 and other bits are 0
-          example: 8 = 1000, 4 = 100
-          if x > 0 and x & (x - 1) == 0 then x will be a power of two
-          x = 4 = 100, x - 1 = 3 = 011
-          x & (x - 1) = 0
-          
-task 02: Count the number of 1s in the binary representation of a given number ?
+x | (1 << i) // it makes the i'th bit to 1
 
-Solution: Complexity - log n
-          while(n) {
-            n = n & (n - 1);
-            ++count;
-          }
+x & ~(1 << i) // it makes the i'th bit to 0
 
-task 03: Check if the ith bit is set(1) in the binary form of the given number ?
+x ^ (1 << i) // it inverts the i'th bit (1 to 0 or 0 to 1)
 
-Solution: if (n & (1 << i)) then the ith bit is set(1) in the binary from of n
-          else not
-            
-task 04: Return the rightmost 1 in the binary representation of x.
+x & -x // it makes all the 1 bit to 0 except the rightmost 1 bit
 
-Solution: x = 10
-          x & (-x) = (1010) & (0110) = 0010
-          x ^ (x & (x - 1)) = 0010
-          
-task 05: How to make the ith bit into 1.
+x | (x - 1) // it makes all the bits to 1 after the rightmost 1 bit
 
-Solution: x | (1 << i) = 1010 | (1 << 2) = 1010 | 100 = 1110
+__builtin_clz(x) // returns the number of 0 at the beginning
 
-task 06: How to make the ith bit into 0.
+__builtin_ctz(x) // returns the number of 0 at the end
 
-Solution: x & ~(1 << i)
+__builtin_popcount(x) // returns the number of 1 bit (int)
 
-task 07: How to make the opposite of ith bit (0 to 1 or 1 to 0)
+__builtin_popcountll(x) // returns the number of 1 bit (long long)
 
-Solution: x ^ (1 << i)
-
-task 08: What does x & (x - 1) do ?
-
-Solution: It makes the last 1 to 0 of the binary representation of x
-
-task 09: What does x & -x do ?
-
-Solution: It makes all the 1 to 0 except the last 1
-
-task 10: What does x | (x - 1) do ?
-
-Solution: It inverts all the bits after the last 1 bit.
-
-task 11: Builtin function of bit manipulation.
-
-Solution: __builtin_clz(x): the number of zeroes at the beginning of the number
-          __builtin_ctz(x): the number of zeroes at the end of the number
-          __builtin_popcount(x): the number of ones in the number
