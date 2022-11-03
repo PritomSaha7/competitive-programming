@@ -1,47 +1,35 @@
-->> Articulation Points and Bridges
-->> Source: Safayet Blog
-->> Complexity: O(v + e)
+// Articulation Points and Bridges
+// Source: http://www.shafaetsplanet.com/?p=2504
+// Complexity: O(v + e)
 
-const int N = 1e5;
-vector<int> graph[N];
-int vis[N], point[N], time_in[N], min_time[N];
+const int N = 1e5 + 5;
+
+vector<int> graph[N], vis(N), point(N), enter(N), upd(N);
+
 int timer = 0;
 
-void dfs(int x, int parent) {
-    vis[x] = 1;
-    time_in[x] = min_time[x] = ++ timer;
-    int child = 0;
-    for (auto u : graph[x]) {
-        if (vis[u] && u != parent) {
-            min_time[x] = min(min_time[x], time_in[u]);
-        } else if (!vis[u]) {
-            child += 1;
-            dfs(u, x);
-            min_time[x] = min(min_time[x], min_time[u]);
-            if (time_in[x] <= min_time[u] && parent != -1) {
-                point[x] = 1;
-            }
-            // for bridges the above condition will be
-            // if (time_in[x] < min_time[u]) {
-            // 
-            // }
-        }
-    }
-    // for bridges the below condition no need
-    if (child > 1 && parent == -1) {
+// articulation(1, -1) 
+void articulation(int x, int parent) {
+  vis[x] = 1;
+  enter[x] = upd[x] = ++timer;
+  int children = 0;
+  for (auto u : graph[x]) {
+    if (vis[u] == 0) {
+      children += 1;
+      articulation(u, x);
+      upd[x] = min(upd[x], upd[u]);
+      if (enter[x] <= upd[u] && parent != -1) {
         point[x] = 1;
+      }
+      // for bridges the above condition will be
+      // if (enter[x] < upd[u]) {
+      //  
+      // }
+    } else if (vis[u] == 1 && u != parent) {
+      upd[x] = min(upd[x], enter[u]); // or upd[u]
     }
+  }
+  if (children > 1 && parent == -1) {
+    point[x] = 1;
+  }
 }
-
-int main() {
-    ios :: sync_with_stdio(false);
-    cin.tie(0);
-    int n, m; cin >> n >> m;
-    for (int i = 0; i < m; i++) {
-        int u, v; cin >> u >> v;
-        graph[u].push_back(v);
-        graph[v].push_back(u);
-    }
-    dfs(1, -1);
-}
-
