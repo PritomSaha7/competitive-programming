@@ -16,5 +16,4 @@ void kmp(string p, string t) {
     }
     lps[i] = (s[i] == s[j]) ? j + 1 : j;
   }
-  return lps;
 }
