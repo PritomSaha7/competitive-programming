@@ -1,28 +1,20 @@
-// KMP Algorithm for substring search
+// KMP 
 // Complexity: O(n + m)
-// http://www.shafaetsplanet.com/?p=3209
-// https://www.spoj.com/problems/NHAY/
+// Source: http://www.shafaetsplanet.com/?p=3209
 
-vector<int> KMP(string s) {
+vector<int> lps;
+
+void kmp(string p, string t) {
+  string s = p + '?' + t;
   int n = (int) s.size();
-  vector<int> lps(n);
+  lps.resize(n);
+  lps[0] = 0;
   for (int i = 1; i < n; i++) {
     int j = lps[i - 1];
     while(j > 0 and s[i] != s[j]) {
       j = lps[j - 1];
     }
-    if (s[i] == s[j]) {
-      j++;
-    }
-    lps[i] = j;
+    lps[i] = (s[i] == s[j]) ? j + 1 : j;
   }
   return lps;
-}
-
-int main() {
-  ios :: sync_with_stdio(false);
-  cin.tie(0);
-  string te, pa; cin >> te >> pa;
-  string s = pa + '?' + te;
-  vector<int> lps = KMP(s);
 }
