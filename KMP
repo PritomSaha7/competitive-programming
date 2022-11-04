@@ -1,11 +1,10 @@
 // KMP 
-// Complexity: O(n + m)
+// Complexity: O(n)
 // Source: http://www.shafaetsplanet.com/?p=3209
 
 vector<int> lps;
 
-void kmp(string p, string t) {
-  string s = p + '?' + t;
+void kmp(string s) {
   int n = (int) s.size();
   lps.resize(n);
   lps[0] = 0;
