@@ -17,6 +17,7 @@ int binexp(int a, int b) {
     a = (a * a) % MD;
     b /= 2;
   }
+  return res;
 }
 
 void compute() {
