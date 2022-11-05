@@ -1,3 +1,7 @@
+// Topological Sort 
+// Complexity: O(v + e)
+// Source: https://cp-algorithms.com/graph/topological-sort.html
+
 // topsort with bfs.
 
 const int N = 1e5 + 5;
@@ -30,7 +34,6 @@ bool topsort(int n) {
   return (order.size() == n);
 }
 
-
 // topsort with dfs.
 // works on acyclic graph only.
 
@@ -56,18 +59,3 @@ void topsort(int n) {
   }
   reverse(order.begin(), order.end());
 }
-
-
-// topological sort 
-// complexity: O(v + e)
-// https://cp-algorithms.com/graph/topological-sort.html
-
-// graph[u].push_back(v] -> u should be done before v.
-                                            
-// practice problem
-// https://www.spoj.com/problems/TOPOSORT/
-// https://www.spoj.com/problems/RPLA/
-// https://cses.fi/problemset/task/1679
-// https://cses.fi/problemset/task/1680
-// https://cses.fi/problemset/task/1681
-// http://codeforces.com/problemset/problem/510/C
