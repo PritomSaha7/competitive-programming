@@ -1,3 +1,7 @@
+// Sparse Table
+// Complexity: computelogs - O(n), build - O(n log n), get - O(1)
+// Source: http://adilet.org/blog/sparse-table/
+
 const int N = 1e5 + 5;
 
 vector<vector<int> > table(N, vector<int> (30));
@@ -27,14 +31,3 @@ int get(int l, int r) {
   int p = logs[r - l + 1];
   return min(table[l][p], table[r - (1 << p) + 1][p]);
 }
-
-
-// sparse table
-// complexity: computelogs - O(n), build - O(n log n), get - O(1)
-// source: http://adilet.org/blog/sparse-table/
-// calculate min, max, gcd, lcm 
-
-// practice problem
-// https://www.spoj.com/problems/RMQSQ/en/
-// https://cses.fi/problemset/task/1647
-// https://lightoj.com/problem/array-queries
