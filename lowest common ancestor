@@ -1,3 +1,7 @@
+// Lowest Common Ancestor
+// Complexity: build - n log n + lca - log n
+// Source: http://www.shafaetsplanet.com/?p=1831
+
 const int N = 1e5 + 5;
 
 vector<int> graph[N], depth(N), vis(N);
@@ -51,18 +55,3 @@ int lca(int p, int q) {
   }
   return table[p][0];
 }
-
-
-
-// lowest common ancestor
-// binary lifting
-// complexity: build - n log n
-//             lca - log n
-// http://www.shafaetsplanet.com/?p=1831
-
-
-// practice problem
-// https://www.spoj.com/problems/LCA/en/
-// https://www.spoj.com/problems/DISQUERY/en/
-// https://cses.fi/problemset/task/1687
-// https://cses.fi/problemset/task/1688
