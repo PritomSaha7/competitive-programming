@@ -1,35 +1,39 @@
 // Articulation Points and Bridges
-// Source: http://www.shafaetsplanet.com/?p=2504
+// Source: https://codeforces.com/blog/entry/71146
 // Complexity: O(v + e)
 
 const int N = 1e5 + 5;
 
-vector<int> graph[N], vis(N), point(N), enter(N), upd(N);
-
+vector<int> graph[N], points(N), low(N), disc(N);
+vector<pair<int, int> > bridges;
 int timer = 0;
 
-// articulation(1, -1) 
-void articulation(int x, int parent) {
-  vis[x] = 1;
-  enter[x] = upd[x] = ++timer;
+int dfs(int u, int p) {
   int children = 0;
-  for (auto u : graph[x]) {
-    if (vis[u] == 0) {
+  low[u] = disc[u] = ++timer;
+  for (auto v : graph[u]) {
+    if (v == p) continue;
+    if (!disc[v]) {
       children += 1;
-      articulation(u, x);
-      upd[x] = min(upd[x], upd[u]);
-      if (enter[x] <= upd[u] && parent != -1) {
-        point[x] = 1;
+      dfs(v, u);
+      if (disc[u] <= low[v]) {
+        points[u] = 1;
       }
-      // for bridges the above condition will be
-      // if (enter[x] < upd[u]) {
-      //  
-      // }
-    } else if (vis[u] == 1 && u != parent) {
-      upd[x] = min(upd[x], enter[u]); // or upd[u]
+      if (disc[u] < low[v]) {
+        bridges.push_back({u, v});
+      }
+      low[u] = min(low[u], low[v]);
+    } else {
+      low[u] = min(low[u], disc[v]);
     }
   }
-  if (children > 1 && parent == -1) {
-    point[x] = 1;
+  return children;
+}
+
+void articulation(int n) {
+  for (int u = 1; u <= n; u++) {
+    if (!disc[u]) {
+      points[u] = dfs(u, u) > 1;
+    }
   }
 }
