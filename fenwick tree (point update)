@@ -1,30 +1,32 @@
-const int N = 1e5 + 5;
-
-int bit[N];
-
-void update(int i, int x, int n) {
-  while(i <= n) {
-    bit[i] += x;
-    i += i & -i;
-  }
-}
-
-int get(int i) {
-  int sum = 0;
-  while(i > 0) {
-    sum += bit[i];
-    i -= i & -i;
-  }
-  return sum;
-}
-
-
-
-// fenwick tree (point update)
+// Fenwick Tree(Point Update)
 // https://www.topcoder.com/thrive/articles/Binary%20Indexed%20Trees
+// https://www.baeldung.com/cs/fenwick-tree
 // https://www.youtube.com/watch?v=aAALKHLeexw
-// complexity: log n.
+// Complexity: time - O(log n) space - O(n).
 
-// problems:
-// https://cses.fi/problemset/task/1648
-// https://lightoj.com/problem/curious-robin-hood
+class Fenwick {
+  public:
+    vector<int> node;
+    int n;
+    Fenwick() {}
+    Fenwick(int n) : n(n) {
+      node.assign(n + 1, 0);
+    }
+    void update(int i, int x) {
+      while(i <= n) {
+        node[i] += x;
+        i += i & -i;
+      }
+    }
+    int pref(int i) {
+      int sum = 0;
+      while(i > 0) {
+        sum += node[i];
+        i -= i & -i;
+      }
+      return sum;
+    }
+    int get(int l, int r) {
+      return pref(r) - pref(l - 1);
+    }
+};
