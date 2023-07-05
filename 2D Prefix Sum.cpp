@@ -1,8 +1,3 @@
-// 2D Prefix Sums
-// Source: https://usaco.guide/silver/more-prefix-sums?lang=cpp
-// Complexity: build - O(n * m) get - O(1)
-// Problem: https://cses.fi/problemset/task/1652
-
 const int N = 1e3 + 5;
 
 vector<vector<int>> matrix(N, vector<int>(N, 0));
