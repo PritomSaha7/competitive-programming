@@ -1,5 +1,3 @@
-// Source: https://www.hackerearth.com/practice/basic-programming/bit-manipulation/basics-of-bit-manipulation/tutorial/
-
 AND 
 Sol: 1 & 1 = 1, 1 & 0 = 0, 0 & 1 = 0, 0 & 0 = 0
 OR
